@@ -44,3 +44,11 @@ To try out API service, open [http://127.0.0.1:8000/docs#/default/predict_predic
 
 
 Endpoint input and prediction is written in local file `predictions.csv`.
+
+## Disclaimer on AI usage
+
+AI assisted IDE Cursor was used only during test development, Github Actions and Dockerfile. A few Scikit learn, Pandas, pytest and FastAPI reference documentation pages were accessed during rest of the development.
+
+## Recording
+
+Development session is recorded, 10X speed up video is stored at `assets/recordin_10x.mp4`.
