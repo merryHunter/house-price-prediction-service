@@ -10,7 +10,10 @@ This is a demo of a simple linear regression model.
 
 `python .\train.py '..\data\Real estate.csv' `
 
-Output of model training will be a joblib model artifact (scikit-learn pipeline object) in folder `ml/models/house_price_<timestamp>.joblib`
+Output of model training will be a joblib model artifact (scikit-learn pipeline object) in folder `ml/models/house_price_<timestamp>.joblib`.
+
+Feature engineering is extremely basic only to show re-use of feature transformation during training and inference stages. Potentially, pairwise features, distance
+to closest city, more boolean flags can be computed. 
 
 ## Running tests
 
