@@ -60,4 +60,4 @@ AI assisted IDE Cursor was used only during test development, Github Actions and
 
 ## Recording
 
-Development session is recorded, 10X speed up video is stored at `assets/recordin_10x.mp4`.
+Development session is recorded, 10X speed up video is stored at `assets/recording_10x.mp4`.

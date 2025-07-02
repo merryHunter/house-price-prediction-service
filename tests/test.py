@@ -15,6 +15,8 @@ def predictor():
 @pytest.fixture
 def client():
     """Create a test client for FastAPI"""
+    with open('.env', 'w') as f:
+        f.write('MODEL_PATH=ml/models/price_model_2025-07-02-12-50-34.joblib')
     return TestClient(app)
 
 
@@ -125,7 +127,6 @@ class TestFastAPIPredict:
             "X3 distance to the nearest MRT station": 100,
             "X4 number of convenience stores": 3
         }
-        
         response = client.post("/predict", json=valid_payload)
         assert response.status_code == 200
         data = response.json()

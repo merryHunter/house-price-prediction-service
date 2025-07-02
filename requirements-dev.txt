@@ -1,7 +1,7 @@
-scikit-learn
-fastapi
-python-dotenv
-pandas
+scikit-learn==1.5.2
+fastapi==0.115.11
+python-dotenv==1.0.1
+pandas==2.2.3
 pytest
 httpx
 pytest-asyncio
