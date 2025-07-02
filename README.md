@@ -45,6 +45,15 @@ To try out API service, open [http://127.0.0.1:8000/docs#/default/predict_predic
 
 Endpoint input and prediction is written in local file `predictions.csv`.
 
+## Docker
+
+Minimal docker image with launching multiple uvicorn workers can be built and run :
+
+```
+docker build -t ml_service .
+docker run -p 8000:8000 ml_service
+```
+
 ## Disclaimer on AI usage
 
 AI assisted IDE Cursor was used only during test development, Github Actions and Dockerfile. A few Scikit learn, Pandas, pytest and FastAPI reference documentation pages were accessed during rest of the development.
