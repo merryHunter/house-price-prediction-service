@@ -42,6 +42,10 @@ To try out API service, open [http://127.0.0.1:8000/docs#/default/predict_predic
 }
 ```
 
+Sample output in docs page:
+
+![image](assets/fastapi_predict_demo.png "Demo in FastAPI")
+
 
 Endpoint input and prediction is written in local file `predictions.csv`.
 
@@ -60,4 +64,11 @@ AI assisted IDE Cursor was used only during test development, Github Actions and
 
 ## Recording
 
-Development session is recorded, 10X speed up video is stored at `assets/recording_10x.mp4`.
+Development session is recorded, 15X speed up video is stored at this [google drive link](https://drive.google.com/file/d/11QJM3dxj_1x-JoL2yfAPVIkvc1oskfaG/view?usp=sharing).
+
+For certain reasons, the recorded screen was enalrged / cut from bottom and side.
+
+Key time codes:
+- 3.00 - FastAPI service development
+- 09.07 - unit tests with Cursor Sonnet 4
+- 10.45 - answers in `Deployments.md`
