@@ -108,6 +108,14 @@ class TestValidateBoundaries:
         }
         assert predictor.validate_boundaries(edge_payload) is True
 
+    def test_validate_boundaries_non_numeric_values(self, predictor):
+        """Test validation with non-numeric values"""
+        invalid_payload = {
+            'X2 house age': 'five',
+            'X4 number of convenience stores': 10
+        }
+        assert predictor.validate_boundaries(invalid_payload) is False
+
 
 class TestFastAPIPredict:
     def test_predict_valid_input(self, client):
@@ -160,7 +168,6 @@ class TestFastAPIPredict:
         """Test health endpoint"""
         response = client.get("/health")
         assert response.status_code == 200
-        assert response.json() == 200
 
 
 class TestWritePrediction:

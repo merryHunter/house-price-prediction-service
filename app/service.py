@@ -2,7 +2,6 @@ from fastapi import FastAPI
 import joblib 
 import os
 import logging
-from logging.handlers import RotatingFileHandler
 import uuid
 from ml.features import create_features, ALL_FEATURES
 import pandas as pd
@@ -14,12 +13,11 @@ logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[
-        logging.StreamHandler()
+        logging.StreamHandler(),
+        logging.FileHandler('house-price-service.log')
     ]
 )
 logger = logging.getLogger('house_price_service')
-filehandler = RotatingFileHandler('app.log', maxBytes=1024 * 1024, backupCount=5)
-logger.addHandler(filehandler)
 
 ### ----- ENV  ----- ###
 load_dotenv()
@@ -27,6 +25,7 @@ MODEL_PATH = os.getenv('MODEL_PATH', None)
 
 ### ----- PREDICTOR  ----- ###
 class HousePricePredictor:
+    """ Wrapper for ML model and prediction logic, input validation and prediction writing to file"""
     def __init__(self):
         self._model_loaded = False
         self._ml_pipeline = None
@@ -42,6 +41,8 @@ class HousePricePredictor:
         with open(self._result_filename, 'w') as f:
             f.writelines(','.join(csv_header))
 
+    def is_model_loaded(self):
+        return self._model_loaded
     
     def load_model(self, model_path: str):
         """ Load model from disk. Loading is not allowed for already loaded model. """
@@ -60,6 +61,10 @@ class HousePricePredictor:
             logger.error(f"ML Model could not be loaded from: {model_path}. Error: {str(e)}")
 
     def validate_boundaries(self, payload: dict):
+        """ Validate input boundaries and numeric values """
+        for key, value in payload.items():
+            if not isinstance(value, (int, float)):
+                return False
         if payload['X2 house age'] > self._MAX_AGE or payload['X4 number of convenience stores'] > self._MAX_STORES:
             return False
         return True
@@ -91,6 +96,8 @@ predictor.load_model(MODEL_PATH)
 
 @app.get('/health')
 async def health():
+    if not predictor.is_model_loaded():
+        return {"message": "Model is not loaded"}
     return 200
 
 @app.post('/predict')
@@ -131,6 +138,7 @@ async def predict(payload: dict):
     # validate boundaries
     if not predictor.validate_boundaries(payload):
         invalid_message = f"{message_validation}: Invalid boundaries of input values"
+        logger.warning(f"{request_id} - {invalid_message}. Payload: {payload}")
         return {"success" : 0, "price": -1.0, "message": invalid_message}
 
     try:

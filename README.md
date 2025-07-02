@@ -1,16 +1,18 @@
 # House Pricing Prediction Service
 
-This is a demo of a simple linear regression model.
+This is a demo of a simple linear regression model. 
 
 ## Pre requisites
 
-`pip install -r requirements.txt`
+`python -m pip install -r requirements-dev.txt`
+
+Main dependencies are Pandas and Scikit-learn.
 
 ## Training model
 
 `python .\train.py '..\data\Real estate.csv' `
 
-Output of model training will be a joblib model artifact (scikit-learn pipeline object) in folder `ml/models/house_price_<timestamp>.joblib`.
+Rigde Regression model is traing on housing data. Output of model training will be a joblib model artifact (scikit-learn pipeline object) in folder `ml/models/house_price_<timestamp>.joblib`.
 
 Feature engineering is extremely basic only to show re-use of feature transformation during training and inference stages. Potentially, pairwise features, distance
 to closest city, more boolean flags can be computed. 
@@ -21,9 +23,16 @@ to closest city, more boolean flags can be computed.
 
 ## Running FastAPI service
 
+From root directory, launch the following command:  
 `python -m  fastapi run app/service.py`
 
-To try out api, open [http://127.0.0.1:8000/docs#/default/predict_predict_post](http://127.0.0.1:8000/docs#/default/predict_predict_post) . Insert sample JSON:
+Model loading is done by reading .env file containing path to the model. Sample model is already provided.
+
+Input is validated for missing fields, boundary values and null values.
+
+Service paylod and house price is written to `predictions.csv`.
+
+To try out API service, open [http://127.0.0.1:8000/docs#/default/predict_predict_post](http://127.0.0.1:8000/docs#/default/predict_predict_post) . Insert sample JSON:
 
 ```
 {
